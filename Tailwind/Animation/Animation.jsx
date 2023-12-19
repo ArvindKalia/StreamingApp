@@ -2,6 +2,7 @@ import { Icon } from "..";
 import { useState,useEffect } from "react";
 import { useSprings,animated } from "@react-spring/web";
 import { useGesture } from "react-use-gesture";
+import Style from "./Animation.module.css"
 
 export const Carousel = ({
     data,
@@ -66,13 +67,26 @@ export const Carousel = ({
     const Anim = ({styles, index}) => {
         const a = (
             <>
-                <animated.div {...bind()} style={{
+                <animated.div
+                {...bind()} style={{
                     width: "100%",
                     height: height,
                     background: `url(${data[index].image})`,
                     backgroundSize: "cover",
                     ...styles
-                }}></animated.div>
+                }}>
+                    <div className={`
+                    flex items-center h-full
+                    ${Style["caption-bg"]}
+                    `}>
+                    <div className="p-8 sm:p-16 w-full">
+                    {
+                        data[index].caption
+                    }
+                    </div>
+                    </div>
+
+                </animated.div>
             </>
         )
         return a;

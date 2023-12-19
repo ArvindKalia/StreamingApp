@@ -1,8 +1,9 @@
-import { Navbar, IconButton } from "../../Tailwind";
-const Template = ()=>{
+import { Navbar, IconButton,Footer } from "../../Tailwind";
+import Logo from "../Logo/Logo";
+const Template = ({children})=>{
     //const
     const menus= {
-        brand: "Just for code",
+        brand: <Logo />,
         link: [
             {
                 label: "HOME",
@@ -51,6 +52,10 @@ const Template = ()=>{
         toolbar={toolbars}
         variant="three"
         />
+        <div>
+            {children}
+        </div>
+        <Footer />
         </>
     )
     return design;
