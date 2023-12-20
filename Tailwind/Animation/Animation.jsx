@@ -1,7 +1,7 @@
 import { Button, Icon } from "..";
 import { useState,useEffect } from "react";
 import { useSprings,animated } from "@react-spring/web";
-import { useGesture } from "react-use-gesture";
+import { useGesture,useDrag } from "react-use-gesture";
 import Style from "./Animation.module.css"
 import useMeasure from "react-use-measure";
 
@@ -69,7 +69,9 @@ export const Carousel = ({
         const a = (
             <>
                 <animated.div
-                {...bind()} style={{
+                {...bind()} 
+                className={Style["no-select"]}
+                style={{
                     width: "100%",
                     height: height,
                     background: `url(${data[index].image})`,
@@ -173,16 +175,62 @@ export const Carousel = ({
 
 export const Slider=({data, vertical=false})=>{
     const [springs,api] = useSprings(data.length, ()=>({
-        x:"0"
+        x:0
     }));
+    
+    const [count, setCount] = useState(0)
+    const [move, setMove] = useState(0)
     const [image,imageBound]= useMeasure();
     const [main,mainBound]= useMeasure();
+    const handleDrag=({offset})=>{
+        api.start({
+            x: offset[0]
+        })
+    }
+
+    const bind= useDrag(handleDrag,{
+        bounds: {
+            left: -((imageBound.width*data.length)-(mainBound.width-(imageBound.width/2))),
+            right: 0
+        }
+    });
      
+    const next=()=>{
+        if(count<data.length-4)
+        {
+            setCount(count+1)
+            setMove(move+imageBound.width);
+        }
+        else{
+            return null
+        }
+
+    }
+    const prev=()=>{
+        if(count>0)
+        {
+            setCount(count-1)
+            setMove(move-imageBound.width);
+        }
+        else{
+            return null
+        }
+
+    }
+
+    useEffect(()=>{
+        api.start({
+            x:-move
+        })
+    },[move])
+
     const Anim=({styles,index})=>{
         const anim=(
             <>
             <animated.div 
+            {...bind()}
             ref={image}
+            className={Style["no-select"]}
             style={{
                 ...styles,
                 width: vertical ? "100%" : "25%",
@@ -219,7 +267,7 @@ export const Slider=({data, vertical=false})=>{
         <>
         <div 
         ref={main}
-        className="overflow-hidden">
+        className="overflow-hidden relative">
             <div className={`flex gap-4
             ${vertical?"flex-col": "flex-row"}
             `
@@ -236,6 +284,35 @@ export const Slider=({data, vertical=false})=>{
                         />
                     })
                 }
+            </div>
+            <div 
+            className="flex 
+            h-full items-center
+            absolute top-0 left-0
+            ">
+                <button
+                onClick={prev}
+                style={{
+                    background: "rgba(0,0,0,0.8)"
+                }}
+                className="text-white py-3 px-2">
+                    <Icon>arrow_back_ios</Icon>
+                </button>
+            </div>
+            <div 
+            className="flex 
+            h-full items-center
+            absolute top-0 right-0
+            ">
+                <button
+                onClick={next}
+                style={{
+                    background: "rgba(0,0,0,0.8)",
+                    marginRight: "8px"
+                }}
+                className="text-white py-3 px-2">
+                    <Icon>arrow_forward_ios</Icon>
+                </button>
             </div>
         </div>
         </>
