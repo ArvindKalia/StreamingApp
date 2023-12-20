@@ -175,7 +175,8 @@ export const Carousel = ({
 
 export const Slider=({data, vertical=false})=>{
     const [springs,api] = useSprings(data.length, ()=>({
-        x:0
+        x:0,
+        y:0
     }));
     
     const [count, setCount] = useState(0)
@@ -184,14 +185,17 @@ export const Slider=({data, vertical=false})=>{
     const [main,mainBound]= useMeasure();
     const handleDrag=({offset})=>{
         api.start({
-            x: offset[0]
+            x: vertical ? null :offset[0],
+            y: vertical ? offset[1] : null,
         })
     }
 
     const bind= useDrag(handleDrag,{
         bounds: {
             left: -((imageBound.width*data.length)-(mainBound.width-(imageBound.width/2))),
-            right: 0
+            right: 0,
+            top:-((imageBound.height*data.length)-(516-imageBound.height)),
+            botton:0
         }
     });
      
@@ -199,7 +203,12 @@ export const Slider=({data, vertical=false})=>{
         if(count<data.length-4)
         {
             setCount(count+1)
-            setMove(move+imageBound.width);
+            vertical ?
+            setMove(move+imageBound.height)
+            :
+            setMove(move+imageBound.width)
+            
+            ;
         }
         else{
             return null
@@ -210,7 +219,10 @@ export const Slider=({data, vertical=false})=>{
         if(count>0)
         {
             setCount(count-1)
-            setMove(move-imageBound.width);
+            vertical ?
+            setMove(move-imageBound.height)
+            :
+            setMove(move+imageBound.width)
         }
         else{
             return null
@@ -220,7 +232,8 @@ export const Slider=({data, vertical=false})=>{
 
     useEffect(()=>{
         api.start({
-            x:-move
+            x:vertical?null: -move,
+            y:vertical? -move : null,
         })
     },[move])
 
@@ -267,7 +280,9 @@ export const Slider=({data, vertical=false})=>{
         <>
         <div 
         ref={main}
-        className="overflow-hidden relative">
+        className={`overflow-hidden 
+        ${vertical ? null : "relative"}
+        `}>
             <div className={`flex gap-4
             ${vertical?"flex-col": "flex-row"}
             `
@@ -286,32 +301,29 @@ export const Slider=({data, vertical=false})=>{
                 }
             </div>
             <div 
-            className="flex 
-            h-full items-center
-            absolute top-0 left-0
-            ">
+            className={`flex absolute ${vertical ? "w-full justify-center top-0 left-0" : "h-full items-center top-0 left-0"} `}>
                 <button
                 onClick={prev}
                 style={{
                     background: "rgba(0,0,0,0.8)"
                 }}
-                className="text-white py-3 px-2">
-                    <Icon>arrow_back_ios</Icon>
+                className={`text-white
+                ${vertical ? "px-4 pt-2" : "py-3 px-2"}
+                `}>
+                    <Icon>{vertical ? "arrow_upward" : "arrow_back_ios"}</Icon>
                 </button>
             </div>
             <div 
-            className="flex 
-            h-full items-center
-            absolute top-0 right-0
-            ">
-                <button
+            className={`flex absolute ${vertical ? "w-full justify-center bottom-0 left-0" : "h-full items-center top-0 right-0"} `}>
+                 <button
                 onClick={next}
                 style={{
-                    background: "rgba(0,0,0,0.8)",
-                    marginRight: "8px"
+                    background: "rgba(0,0,0,0.8)"
                 }}
-                className="text-white py-3 px-2">
-                    <Icon>arrow_forward_ios</Icon>
+                className={`text-white
+                ${vertical ? "px-4 pt-2" : "py-3 px-2"}
+                `}>
+                    <Icon>{vertical ? "arrow_downward" : "arrow_forward_ios"}</Icon>
                 </button>
             </div>
         </div>

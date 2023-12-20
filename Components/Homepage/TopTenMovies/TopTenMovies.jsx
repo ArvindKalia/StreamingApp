@@ -58,7 +58,9 @@ const TopTenMovies=()=>{
                 background : "linear-gradient(to right,rgba(0,0,0,0.9),transparent)"
             }}>
                 <h1 className="text-white text-3xl mb-4">Top Ten Movies</h1>
-                <div style={{
+                <div 
+                className="relative"
+                style={{
                     width:330,
                     height:516
                 }}>
