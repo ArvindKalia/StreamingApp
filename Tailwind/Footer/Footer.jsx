@@ -11,7 +11,7 @@ const Footer = () => {
             flex-col sm:flex-row gap-10 sm:gap-0
             ">
                 <div className="mx-auto">
-                    <Logo />
+                    <Logo className="text-white" />
                     <p className="text-gray-500 my-5 ">
                         Your videos on the go 24*7
                     </p>

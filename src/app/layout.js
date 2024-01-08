@@ -2,6 +2,10 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import 'animate.css';
 import 'material-icons/iconfont/material-icons.css';
+import AuthProvider from '../../Components/AuthProvider/AuthProvider';
+import "font-awesome/css/font-awesome.min.css";
+import { Suspense } from 'react';
+import Loading from './loading';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,7 +17,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body suppressHydrationWarning={true} className={inter.className}>
+        <AuthProvider>
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
+        </AuthProvider>
+      </body>
     </html>
   )
 }

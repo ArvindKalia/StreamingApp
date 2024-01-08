@@ -7,6 +7,7 @@ const sample={
     "o-success": "border border-green-600 text-green-600 shadow-lg rounded-sm px-4 py-2",
 
     "primary": "bg-teal-600 text-white shadow-lg rounded-sm px-4 py-2",
+    "disabled": "bg-gray-200 text-white shadow-lg rounded-sm px-4 py-2",
     "secondary": "bg-blue-600 text-white shadow-lg rounded-sm px-4 py-2",
     "info": "bg-cyan-600 text-white shadow-lg rounded-sm px-4 py-2",
     "error": "bg-red-600 text-white shadow-lg rounded-sm px-4 py-2",

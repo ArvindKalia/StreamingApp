@@ -1,6 +1,9 @@
 import { Navbar, IconButton,Footer } from "../../Tailwind";
 import Logo from "../Logo/Logo";
+import { useSession } from "next-auth/react";
 const Template = ({children})=>{
+
+    const {data,status}= useSession();
     //const
     const menus= {
         brand: <Logo />,
@@ -27,18 +30,61 @@ const Template = ({children})=>{
             }
         ]
     }
+    const beforeLogin=[
+        {
+            label: "register",
+            href: "/register",
+            icon: "person"
+        },
+        {
+            label: "login",
+            href: "/login",
+            icon: "login"
+        }
+    ];
+    const afterLogin=[
+        {
+            label: data && data.user.name,
+            href: "/profile",
+            icon: "person"
+        },
+        {
+            label: "logout",
+            href: "/api/auth/signout",
+            icon: "login",
+            logout: true
+        }
+    ]
+
     const toolbars=[
         {
             label: <IconButton 
-            theme="error"
+            theme="primary"
             size="sm"
             >search</IconButton>
         },
         {
             label: <IconButton 
+            dropdown
+            dropdownMenu={
+                status==="authenticated"
+                ? afterLogin :
+                beforeLogin
+            }
             theme="error"
             size="sm"
-            >person</IconButton>
+            >
+                {
+                    status==="authenticated"
+                    ? <img src={
+                        data.user.image ? 
+                        data.user.image : 'https://www.w3schools.com/howto/img_avatar.png'
+                    } 
+                    className="rounded-full"
+                    alt="dummy" />
+                    : "person"
+                }
+            </IconButton>
         }
     ]
 

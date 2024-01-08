@@ -1,5 +1,8 @@
 import { Slider } from "../../../Tailwind";
+import { useSelector } from "react-redux";
 const TopTenMovies=()=>{
+    const {AnimationReducer} = useSelector(response=>response)
+    const {image}= AnimationReducer
     const data=[
         {
             thumbnail: "sanddust2.jpg",
@@ -51,7 +54,7 @@ const TopTenMovies=()=>{
         <>
         <div style={{
             height:600,
-            background: `url(sanddust2.jpg)`,
+            background: `url(${image ? image : "sanddust2.jpg"})`,
             backgroundSize: "cover"
         }}>
             <div className="h-full p-8 overflow-hidden" style={{

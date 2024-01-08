@@ -2,11 +2,14 @@
 const Card=({
   children,
   title=null,
-  actions=null
+  actions=null,
+  className=null
 })=>{
     const design=(
       <>
-      <div className="p-4 shadow-lg border bg-white">
+      <div className={`p-4 shadow-lg border bg-white
+      ${className}
+      `}>
       {
         title ? <h1 className="text-2xl mb-4">{title}</h1>: null
       

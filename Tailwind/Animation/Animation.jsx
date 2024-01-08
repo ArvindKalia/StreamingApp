@@ -4,6 +4,7 @@ import { useSprings,animated } from "@react-spring/web";
 import { useGesture,useDrag } from "react-use-gesture";
 import Style from "./Animation.module.css"
 import useMeasure from "react-use-measure";
+import { useDispatch } from "react-redux";
 
 export const Carousel = ({
     data,
@@ -174,6 +175,9 @@ export const Carousel = ({
 }
 
 export const Slider=({data, vertical=false})=>{
+    
+    const dispatch = useDispatch();
+    
     const [springs,api] = useSprings(data.length, ()=>({
         x:0,
         y:0
@@ -237,10 +241,19 @@ export const Slider=({data, vertical=false})=>{
         })
     },[move])
 
+    const view=(index)=>{
+        const payload= data[index];
+        dispatch({
+            type: "PREVIEW_IMAGE",
+            payload
+        })
+    }
+
     const Anim=({styles,index})=>{
         const anim=(
             <>
             <animated.div 
+            onClick={vertical ? ()=>view(index) : null}
             {...bind()}
             ref={image}
             className={Style["no-select"]}

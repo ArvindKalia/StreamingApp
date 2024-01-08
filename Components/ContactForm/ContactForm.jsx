@@ -3,31 +3,50 @@ import {
     Input
 } from "../../Tailwind";
 const ContactForm= ()=>{
+    const fields=[
+        {
+            component : "input",
+            props : {
+                name: "fullname",
+                placeholder: "Name",
+                className: "bg-gray-100 rounded-sm border-0 p-3",
+                width: "full"
+            }
+        },
+        {
+            component : "input",
+            props : {
+                name: "email",
+                placeholder: "Email",
+                className: "bg-gray-100 rounded-sm border-0 p-3",
+                width: "full",
+                type: "email"
+            }
+        },
+        {
+            component : "input",
+            props : {
+                name: "mobile",
+                placeholder: "Mobile",
+                className: "bg-gray-100 rounded-sm border-0 p-3",
+                width: "full",
+                type: "number"
+            }
+        },
+        {
+            component : "input",
+            props : {
+                name: "message",
+                placeholder: "Message",
+                className: "bg-gray-100 rounded-sm border-0 p-3",
+                width: "full",
+                textarea: true
+            }
+        }
+    ]
     const design=(
         <>
-        <FormDesign>
-       <div className="flex flex-col gap-3 mb-3">
-       <Input
-        name="fullname"
-        placeholder="Name"
-        />
-        <Input
-        name="email"
-        type="email"
-        placeholder="Email"
-        />
-        <Input
-        name="mobile"
-        type="number"
-        placeholder="Mobile"
-        />
-        <Input
-        name="message"
-        textarea
-        placeholder="Message"
-        />
-       </div>
-        </FormDesign>
+        <FormDesign fields={fields} />
         </>
     )
     return design;

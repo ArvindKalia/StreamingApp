@@ -1,0 +1,8 @@
+.main{
+    background-image: url(/a.jpg);
+    background-size: 40%;
+}
+
+.opacity{
+    background-color: rgba(0, 0, 0, 0.7);
+}
