@@ -6,6 +6,7 @@ import Style from "./Login.module.css"
 import { signIn, useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 
 const Login = () => {
     const [error, setError] = useState(false)
@@ -94,6 +95,11 @@ const Login = () => {
                                     ></i>
                                     Signin with Github
                                 </Button>
+                                <Link 
+                className="text-end text-blue-500"
+                href="/register">
+                Visit Signup Page !
+                </Link>
                             </div>
                         </Card>
                     </div>

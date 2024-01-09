@@ -8,6 +8,7 @@ import { Button, Input, UploadInput, Select } from "..";
 const FormDesign = ({fields,grid=1,gap=4,disabled=false,...rest}) => {
     const schema= {
         fullname: yup.string().required("This field is required !"),
+        name: yup.string().required("This field is required !"),
         email: yup.string().required("This field is required !").email("Not valid Email"),
         password:yup.string().required("This field is required !"),
         mobile:yup.string().required("This field is required !"),
