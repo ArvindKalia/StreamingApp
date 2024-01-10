@@ -49,7 +49,7 @@ const Login = () => {
   ];
 
   useEffect(()=>{
-    if(RegisterReducer.true)
+    if(RegisterReducer.success)
     {
       return redirect("/plans");
     }
