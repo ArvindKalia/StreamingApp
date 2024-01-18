@@ -1,11 +1,13 @@
+import ShowPlans from "./ShowPlans/ShowPlans";
 import CreatePlans from "./CreatePlans/CreatePlans";
 
 const Plans=()=>{
     const design=(
         <>
-        <h1>
-        <CreatePlans />
-        </h1>
+      <div className="flex flex-col gap-4">
+      <CreatePlans />
+        <ShowPlans />
+      </div>
         </>
     )
     return design;
