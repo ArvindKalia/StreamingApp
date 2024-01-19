@@ -30,7 +30,7 @@ const handler = NextAuth({
                     const response = await axios({
                         method: "get",
                         url: `${process.env.NEXT_PUBLIC_ENDPOINT}/api/user?email=${email}&password=${password}`
-                    })
+                    }); 
                     return response.data.data.user
                 }
                 catch(error)
@@ -53,6 +53,22 @@ const handler = NextAuth({
           })
     ],
     secret:process.env.NEXT_PUBLIC_NEXT_AUTH_SECRET,
+    callbacks: {
+        jwt: ({token,user})=>{
+            if(user)
+            {
+                token['role']= user.role;
+            }
+            return token;
+        },
+        session: ({token,session})=>{
+            if(token)
+            {
+                session.user['role']=token.role
+            }
+            return session;
+        }
+    },
     pages: {
         signIn: "/login"
     },

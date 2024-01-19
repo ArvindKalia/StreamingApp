@@ -3,6 +3,7 @@ import LatestMovies from "./LatestMovies/LatestMovies";
 import UpcomingMovies from "./UpcomingMovies/UpcomingMovies";
 import TopTenMovies from "./TopTenMovies/TopTenMovies";
 import TredingMovies from "./TrendingMovies/TrendingMovies";
+
 const Homepage=()=>{
     const design=(
         <>
