@@ -1,5 +1,5 @@
 import { Slider } from "../../../Tailwind";
-const TredingMovies=()=>{
+const TrendingMovies=()=>{
     const data=[
         {
             thumbnail: "sanddust2.jpg",
@@ -59,4 +59,4 @@ const TredingMovies=()=>{
     )
     return design;
 }
-export default TredingMovies;
+export default TrendingMovies;

@@ -180,7 +180,7 @@ const Movies = () => {
             return response.data.data;
         }
         catch (error) {
-            return error.response.data;
+            return [];
         }
 
     }
@@ -278,14 +278,15 @@ const Movies = () => {
     }
 
     const MovieList = ({ item }) => {
+        console.log(item)
         const list = (
             <>
                 <Card>
-                    <img src="/a.jpg" width="100%" />
+                    <img src={process.env.NEXT_PUBLIC_CLOUDFRONT+"/"+item.thumbnail} width="100%" />
                     <h1 className="font-bold capitalize">
                         {item.title}
                     </h1>
-                    <p>{item.desc}</p>
+                    <p>{item.desc.slice(0,100)+"...."}</p>
                     <p>{item.category}</p>
                     <p>{item.keywords}</p>
                     <div className="flex gap-3 mt-3">

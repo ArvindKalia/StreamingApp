@@ -2,7 +2,7 @@ import Header from "./Header/Header";
 import LatestMovies from "./LatestMovies/LatestMovies";
 import UpcomingMovies from "./UpcomingMovies/UpcomingMovies";
 import TopTenMovies from "./TopTenMovies/TopTenMovies";
-import TredingMovies from "./TrendingMovies/TrendingMovies";
+import TrendingMovies from "./TrendingMovies/TrendingMovies";
 
 const Homepage=()=>{
     const design=(
@@ -13,7 +13,7 @@ const Homepage=()=>{
         <LatestMovies />
         <UpcomingMovies />
         <TopTenMovies />
-        <TredingMovies />
+        <TrendingMovies />
 
         </div>
         </div>

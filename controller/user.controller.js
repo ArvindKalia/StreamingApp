@@ -2,6 +2,7 @@ import "../module/db.module";
 import userSchema from "../schema/user.schema";
 import { decrypt } from "../module/bcrypt.module";
 import { adminMiddleware } from "../middleware/admin.middleware";
+import { SignJWT } from "jose";
 
 export const login = async (request) => {
   const { searchParams } = new URL(request.url);
@@ -20,6 +21,11 @@ export const login = async (request) => {
     //password match
     const login = await decrypt(query.password, userData.password);
     if (login) {
+
+      const alg = "HS256";
+      const secret = new TextEncoder().encode(process.env.ADMIN_SECRET)
+      const token= await new SignJWT(loginData).setProtectedHeader({alg}).setExpirationTime("24h").sign(secret);
+      loginData.token=token
       return {
         data: {
           user: loginData,

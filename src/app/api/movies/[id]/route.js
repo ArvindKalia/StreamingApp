@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { fetchbyId,trash,update } from "../../../../../controller/movies.controller"
+import { fetchbyId,trash,update,makeMovieActive } from "../../../../../controller/movies.controller"
 
 
 export const GET= async(request,{params})=>{
@@ -14,6 +14,11 @@ export const DELETE= async(request,{params})=>{
 }
 export const PUT= async(request,{params})=>{
     const response= await update(request,params);
+    const {data,status}=response;
+    return NextResponse.json({data},{status})
+}
+export const PATCH= async(request,{params})=>{
+    const response= await makeMovieActive(request,params);
     const {data,status}=response;
     return NextResponse.json({data},{status})
 }

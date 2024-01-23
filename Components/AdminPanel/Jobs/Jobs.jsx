@@ -47,6 +47,18 @@ const Jobs = () => {
                 url: "/api/media-convert/" + id
             })
         }
+        const makeActive = async (id) => {
+            try {
+                await axios({
+                    method: "patch",
+                    url: "/api/movies/" + id
+                });
+                alert("success")
+            }
+            catch (error) {
+                alert("Failed !")
+            }
+        }
         const tr = (
             <>
                 <tr className={`bg-gray-200 text-black
@@ -58,7 +70,7 @@ const Jobs = () => {
                         {
                             moment(item.CreatedAt).format('MMMM Do YYYY, h:mm:ss a')
                         }
-                        </td>
+                    </td>
                     <td style={{ verticalAlign: "middle" }}>{item.Status}</td>
                     <td style={{ verticalAlign: "middle" }}>
                         {
@@ -95,6 +107,13 @@ const Jobs = () => {
                                 </div>
                                 :
                                 null
+                        }
+                        {
+                            item.Status === "COMPLETE" ?
+                                <Button
+                                    onClick={() => makeActive(item.Id)}
+                                    theme="success">Make Active</Button>
+                                : null
                         }
                     </td>
                 </tr>

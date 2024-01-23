@@ -4,6 +4,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import {cookies} from "next/headers";
 
 
 
@@ -31,6 +32,13 @@ const handler = NextAuth({
                         method: "get",
                         url: `${process.env.NEXT_PUBLIC_ENDPOINT}/api/user?email=${email}&password=${password}`
                     }); 
+                    const token =  response.data.data.user.token;
+                    cookies().set({
+                        name: "authToken",
+                        value: token,
+                        httpOnly: true,
+                        maxAge: 86400
+                    })
                     return response.data.data.user
                 }
                 catch(error)
