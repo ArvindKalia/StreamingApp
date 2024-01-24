@@ -1,23 +1,55 @@
+import axios from "axios";
 import { Button } from "../../Tailwind";
 import Link from "next/link";
-//dont use swr as this page with be used for SEO, instead use below
-const getData= async()=>{
-    const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/movies/active`)
-    if(!response.ok)
-    {
-        throw new Error("Failed to fetch Data !")
-    }
-    return response.json(); 
-} //this function (getData) will be called where you want to get the data 
-const Videos= async()=>{
-    const data= await getData();
+import { useState,useEffect } from "react";
+
+const Videos= async({videos})=>{
+    const [Videos, setVideos] = useState(videos)
+    const [skip, setSkip] = useState(0)
+
+    useEffect(()=>{
+        if(skip>0)
+        //since we cannot make useeffect as async fn, so doing as below
+        {
+            const request= async ()=>{
+                const response = await axios({
+                    method: "get",
+                    url: "/api/movies/active?skip="+skip
+                });
+                console.log(response.data.data)
+            }
+            request();
+        }
+    },[skip])
+
+    useEffect(()=>{
+        //unlimited scroll till total videos
+        window.onscroll =()=>{
+            if((window.innerHeight + window.scrollY)>= document.body.offsetHeight)
+            {
+                if(skip<Videos.total)
+                {
+                    //to avoid going beyond total videos
+                    let add = skip+12
+                    let result = Videos.total-add 
+                    if(result<0)
+                    {
+                        add=add+result
+                    }
+                    setSkip(add)
+                }
+            }
+        }
+    },[skip])
+   
     const design=(
 <>
 
 <div className="p-8 sm:p-16">
+    {skip}/{Videos.total}
     <div className="grid sm:grid-cols-4 gap-8">
     { // assigned parenthesis(), instead of {} to assign directly
-        data && data.data.map((item,index)=>(      
+        Videos.movies && Videos.movies.map((item,index)=>(      
             <div className="relative" key={index}>
                 <img src={process.env.NEXT_PUBLIC_CLOUDFRONT+"/"+item.thumbnail} alt={item.title} width="500px" height="500px"/>
             <div 
@@ -32,7 +64,10 @@ const Videos= async()=>{
                     {item.duration}
                 </p>
             
-                <Link href={'/videos/'+item.title.toLowerCase().split(" ").join("-")} passHref>                                 
+                <Link href={{
+                    pathname: '/videos/'+item.title.toLowerCase().split(" ").join("-"),
+                    query: item
+                }} passHref>                                 
                 
                 <Button className= "mt-2" theme="error">
                     Play Now

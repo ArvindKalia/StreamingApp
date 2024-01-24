@@ -6,28 +6,28 @@ import "video.js/dist/video-js.css"
 import "videojs-seek-buttons/dist/videojs-seek-buttons.css"
 import "videojs-contrib-quality-levels"
 import "jb-videojs-hls-quality-selector"
-import { useRef,useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Button } from "../../Tailwind";
 
 import "@videojs/themes/dist/city/index.css"
 
-const VideoPlayer=()=>{
+const VideoPlayer = ({params}) => {
     const video = useRef();
-    const player= useRef(null);
-    const options={
-        controls : true,
+    const player = useRef(null);
+    const options = {
+        controls: true,
         sources: [
             {
-                src: "https://d8sysglf3mhwk.cloudfront.net/hls/test.mpd",
+                src: `${process.env.NEXT_PUBLIC_CLOUDFRONT}/stream/original/${params.title}/${params.title}.mpd`,
                 type: "application/dash+xml"
             }
         ],
         fluid: true,
-        playbackRates: [0.5,0.75,1,1.5,2],
-        autoplay : true
+        playbackRates: [0.5, 0.75, 1, 1.5, 2],
+        poster : process.env.NEXT_PUBLIC_CLOUDFRONT+"/"+params.thumbnail
     }
 
-    const onReady=(v_player)=>{
+    const onReady = (v_player) => {
         // v_player.seekButtons({
         //     forward: 10,
         //     back:10
@@ -42,20 +42,18 @@ const VideoPlayer=()=>{
         })
     }
 
-    useEffect(()=>{
-       player.current= videojs(video.current,options,()=>onReady(player.current))
+    useEffect(() => {
+        player.current = videojs(video.current, options, () => onReady(player.current))
     })
 
 
-    const design=(
+    const design = (
         <>
-        <div className="w-6/12">
-        <video 
-        ref={video}
-        className="video-js vjs-big-play-centered"
+            <video
+                ref={video}
+                className="video-js vjs-big-play-centered"
 
-        />
-        </div>
+            />
         </>
     );
     return design;
