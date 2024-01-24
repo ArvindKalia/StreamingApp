@@ -43,11 +43,37 @@ export const activeMovies = async (request) => {
     try {
         const {searchParams} = new URL(request.url)
         const skip= searchParams.get("skip") // get value of skip parameter sent in the address bar
-        const movies = await moviesSchema.find({active:true}).skip(skip ? skip : 0).limit(12); // only show movies with active true
+        const movies = await moviesSchema.find({active:true}).sort({_id: -1}).skip(skip ? skip : 0).limit(12); // only show movies with active true
         const total = await moviesSchema.countDocuments();
         if (movies.length > 0) {
             return {
                 data: {movies,total},
+                status: 200
+            }
+        }
+        else {
+            return {
+                data: "Data not found !",
+                status: 404
+            }
+        }
+    }
+
+    catch (error) {
+        return {
+            data: error,
+            status: 424
+        }
+
+    }
+
+}
+export const latestMovies = async (request) => {
+    try {
+        const movies = await moviesSchema.find().sort({_id: -1}).limit(6); // only show movies  await moviesSchema.countDocuments();
+        if (movies.length > 0) {
+            return {
+                data: movies,
                 status: 200
             }
         }

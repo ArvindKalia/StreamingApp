@@ -16,14 +16,20 @@ const Videos= async({videos})=>{
                     method: "get",
                     url: "/api/movies/active?skip="+skip
                 });
-                console.log(response.data.data)
+               const {movies} =  response.data.data;
+               setVideos((oldData)=>{
+                return {
+                    ...oldData,
+                    movies : [...oldData.movies,...movies]
+                }
+               })
             }
             request();
         }
     },[skip])
 
     useEffect(()=>{
-        //unlimited scroll till total videos
+        //unlimited scroll untill total videos
         window.onscroll =()=>{
             if((window.innerHeight + window.scrollY)>= document.body.offsetHeight)
             {
@@ -34,7 +40,7 @@ const Videos= async({videos})=>{
                     let result = Videos.total-add 
                     if(result<0)
                     {
-                        add=add+result
+                        add=(add+result)-1
                     }
                     setSkip(add)
                 }
@@ -46,7 +52,7 @@ const Videos= async({videos})=>{
 <>
 
 <div className="p-8 sm:p-16">
-    {skip}/{Videos.total}
+    {/* {skip}/{Videos.total} */}
     <div className="grid sm:grid-cols-4 gap-8">
     { // assigned parenthesis(), instead of {} to assign directly
         Videos.movies && Videos.movies.map((item,index)=>(      
