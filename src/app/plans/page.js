@@ -2,11 +2,20 @@
 import Template from "../../../Components/Template/Template";
 import Plans from "../../../Components/Plans/Plans";
 
-const Page=()=>{
+const getData = async () => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_ENDPOINT}/api/plan`)
+    if (!response.ok) {
+        throw new Error('Failed to Fetch Data')
+    }
+    return response.json();
+}
+
+const Page= async()=>{
+    const data = await getData();
 const design=(
     <>
     <Template>
-    <Plans/>
+    <Plans plans={data&& data.data}/>
     </Template>
     </>
 )

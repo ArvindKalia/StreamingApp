@@ -1,5 +1,6 @@
 import "../module/db.module";
 import purchaseSchema from "../schema/purchase.schema";
+import moment from "moment";
 
 export const fetch=async(request)=>{
     const items = await purchaseSchema.find()
@@ -36,5 +37,36 @@ export const create= async(request)=>{
             data:error,
             status:424
         }
+    }
+}
+
+export const checkPlanExpiry= async(request,params)=>{
+    const {email}= params;
+    const plan = await purchaseSchema.findOne({email})
+    if(!plan)
+    {
+        return{
+            data:{
+                message: "Plan not found"
+            },
+            status:404
+        }
+
+    }
+    if(plan.emi.toLocaleLowerCase === "yearly")
+    {
+        var expiry = moment(plan.createdAt).add(1,'y');
+        const today = moment();
+        var diff = moment(expiry).diff(today,'days')
+    }
+    if(plan.emi.toLocaleLowerCase === "monthly")
+    {
+        var expiry = moment(plan.createdAt).add(1,'M');
+        const today = moment();
+        var diff = moment(expiry).diff(today,'days')
+    }
+    return{
+        data:{plan,diff},
+        status:200
     }
 }

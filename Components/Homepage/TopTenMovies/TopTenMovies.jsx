@@ -1,55 +1,9 @@
 import { Slider } from "../../../Tailwind";
 import { useSelector } from "react-redux";
-const TopTenMovies=()=>{
+const TopTenMovies=({latest})=>{
     const {AnimationReducer} = useSelector(response=>response)
     const {image}= AnimationReducer
-    const data=[
-        {
-            thumbnail: "sanddust2.jpg",
-            title: "Movie1",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-abc.png",
-            title: "Movie2",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-xyz.png",
-            title: "Movie3",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "sanddust2.jpg",
-            title: "Movie4",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-abc.png",
-            title: "Movie5",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-xyz.png",
-            title: "Movie6",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "sanddust2.jpg",
-            title: "Movie7",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-abc.png",
-            title: "Movie8",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-xyz.png",
-            title: "Movie9",
-            duration: "02:05:30"
-        }
-    ]
+   
     const design=(
         <>
         <div style={{
@@ -68,7 +22,7 @@ const TopTenMovies=()=>{
                     height:516
                 }}>
                     <Slider 
-                    data={data}
+                    data={latest}
                     vertical={true}
                     />
                 </div>

@@ -1,62 +1,70 @@
-import { Slider } from "../../../Tailwind";
-const LatestMovies=()=>{
-    const data=[
-        {
-            thumbnail: "sanddust2.jpg",
-            title: "Movie1",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-abc.png",
-            title: "Movie2",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-xyz.png",
-            title: "Movie3",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "sanddust2.jpg",
-            title: "Movie4",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-abc.png",
-            title: "Movie5",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-xyz.png",
-            title: "Movie6",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "sanddust2.jpg",
-            title: "Movie7",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-abc.png",
-            title: "Movie8",
-            duration: "02:05:30"
-        },
-        {
-            thumbnail: "movie-xyz.png",
-            title: "Movie9",
-            duration: "02:05:30"
-        }
-    ]
-    const design=(
-        <>
-       <div>
-       <h1 className="text-white mb-4 text-3xl">
-            Latest Movies
+import React, { useRef, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import Link from "next/link";
+import { Button } from "../../../Tailwind";
+const LatestMovies = ({ latest,title }) => {
+  const design = (
+    <>
+     <div className="bg-white p-4">
+        <h1 className="text-black text-3xl font-bold mb-5">
+            {title}
         </h1>
-        <Slider data={data} />
-       </div>
-        </>
-    )
-    return design;
-}
+     <Swiper
+        slidesPerView={4}
+        spaceBetween={30}
+        grabCursor={true}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {
+            latest && latest.map((item,index)=>(
+        <SwiperSlide 
+        key={index}
+        style={{
+            height : "182px",
+            background: `url(${process.env.NEXT_PUBLIC_CLOUDFRONT}/${item.thumbnail})`,
+            backgroundSize: "cover"
+        }}
+        >
+            <div
+            className="w-full text-left p-4 absolute bottom-4 left-0"
+            style={{
+                background: `rgba(0,0,0,0.7)`
+            }}
+            >
+                <h1 className="text-white capitalize">
+                    {item.title}
+                </h1>
+                <p className="text-white font-bold">
+                Duration: {(item.duration/60).toFixed(2)}
+                </p>
+                <Link
+                passHref
+                href={{
+                    pathname: '/videos/'+item.title.toLowerCase().split(" ").join("-"),
+                    query: item
+                }}
+                >
+                <Button theme="error" className="my-3">
+                    Play Now
+                </Button>
+                </Link>
+
+            </div>
+        </SwiperSlide>
+
+            ))
+        }        
+      </Swiper>
+     </div>
+    </>
+  );
+  return design;
+};
 export default LatestMovies;

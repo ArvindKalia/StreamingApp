@@ -10,6 +10,10 @@ planId:{
     type: String,
     required: [true,"PlanId is required !"]
 },
+emi:{
+    type: String,
+    required: [true,"Emi is required !"]
+},
 paymentId:{
     type: String,
     required: [true,"PaymentId is required !"]
@@ -28,5 +32,15 @@ createdAt:{
 }
 });
 mongoose.models={};
+
+purchaseSchema.pre('save',async function(next){
+    const plan = await mongoose.model("purchase",purchaseSchema).findOne({email: this.email})
+    if(plan)
+    {
+        await mongoose.model("purchase",purchaseSchema).deleteOne({email: this.email})
+
+    }
+    next()
+})
 
 export default mongoose.model("purchase",purchaseSchema)
