@@ -21,13 +21,15 @@ const Footer = () => {
                                 src="/google-play.png"
                                 width={150}
                                 height={48}
-                            />
+                                alt="GooglePlay"
+                                />
                         </button>
                         <button>
                             <Image
                                 src="/app-store.png"
                                 width={190}
                                 height={60}
+                                alt="AppStore"
                             />
                         </button>
                     </div>
